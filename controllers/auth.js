@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const e = require("cors");
 const jwt = require("jsonwebtoken");
 const client = require("../configs/db");
 
