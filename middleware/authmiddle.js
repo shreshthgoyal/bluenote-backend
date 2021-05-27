@@ -7,8 +7,7 @@ exports.verify = (req,res,next) => {
     jwt.verify(token,process.env.SECRET_KEY, (err,decoded)=>{
         if(err)
         {
-            console.log("auth middle err ", err);
-            res.status(500).json("Error occured middleware");
+          console.log(err); 
         }
        console.log(decoded);
         const userEmail = decoded.email;
