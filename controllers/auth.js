@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const client = require("../configs/db");
+const passwordValidator = require('password-validator');
+
 
 exports.signUp = (req, res) => {
     const { name, email, password } = req.body;
@@ -17,10 +19,27 @@ exports.signUp = (req, res) => {
 
 
             }
+
+            let schema = new passwordValidator();                                                                // Validating Password conditions
+
+            schema
+                .is().min(8)                                                                                     // Minimum length 8
+                .is().max(100)                                                                                   // Maximum length 100
+                .has().uppercase()                                                                               // Must have uppercase letters
+                .has().lowercase()                                                                               // Must have lowercase letters
+                .has().digits(2)                                                                                 // Must have at least 2 digits
+                .has().not().spaces()                                                                            // Should not have spaces
+
+            if (!schema.validate(password)) {
+                return res.status(500).json({
+                    error: "Input a Strong Password of minimum 8 characters consisting of upper and lowercase letters and atleast 2 digits."
+                })
+            }
+
             else {
                 bcrypt.hash(password, 10, (err, hash) => {
                     if (err)
-                        res.status(err).json({
+                        return res.status(err).json({
                             error: "Server error",
                         });
 
