@@ -6,7 +6,7 @@ exports.signUp = (req, res) => {
     const { name, email, password } = req.body;
 
     client
-        .query(`SELECT from users WHERE email = '${email}'`)
+        .query(`SELECT * FROM users WHERE email= ${value};`, [email])
         .then((data) => {
             const isValid = data.rows;
 
@@ -63,14 +63,15 @@ exports.signUp = (req, res) => {
         });
 };
 
+
 exports.signIn = (req, res) => {
 
     const { email, password } = req.body;
 
     client
-        .query(`SELECT * FROM users WHERE email= '${email}';`)
+        .query(`SELECT * FROM users WHERE email= ${value};`, [email])
         .then((data) => {
-           userData = data.rows;
+            userData = data.rows;
 
             if (userData.length === 0) {
                 res.status(400).json({
@@ -106,8 +107,8 @@ exports.signIn = (req, res) => {
         .catch((err) => {
             console.log(err);
             res.status(500).json({
-              error: "Database error occurred while signing in.",
+                error: "Database error occurred while signing in.",
             });
-          });
+        });
 
 }
