@@ -6,7 +6,7 @@ exports.signUp = (req, res) => {
     const { name, email, password } = req.body;
 
     client
-        .query(`SELECT * FROM users WHERE email= ${value};`, [email])
+        .query(`SELECT * FROM users WHERE email= $1;`, [email])
         .then((data) => {
             const isValid = data.rows;
 
@@ -69,7 +69,7 @@ exports.signIn = (req, res) => {
     const { email, password } = req.body;
 
     client
-        .query(`SELECT * FROM users WHERE email= ${value};`, [email])
+        .query(`SELECT * FROM users WHERE email= $1;`, [email])
         .then((data) => {
             userData = data.rows;
 
